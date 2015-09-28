@@ -5,4 +5,5 @@
 ## Dependencies: modui
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_RaidUI
+spawn.lua
 unit.lua

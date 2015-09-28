@@ -22,6 +22,7 @@
             end
             for k = 1, 5 do
                 local bu   = _G['RaidPullout'..i..'Button'..k]
+                local c    = _G['RaidPullout'..i..'Button'..k..'ClearButton']
                 local hp   = _G['RaidPullout'..i..'Button'..k..'HealthBar']
                 local pp   = _G['RaidPullout'..i..'Button'..k..'ManaBar']
                 local name = _G['RaidPullout'..i..'Button'..k..'Name']
@@ -32,8 +33,11 @@
                                 0,
                                 k == 1 and -2 or -32)
                     bu:SetWidth(58)
-                    bu:SetHeight(40) --!
+                    bu:SetHeight(40)
                     local a = bu:GetRegions() a:Hide()
+
+                    c:SetWidth(58)
+                    c:SetHeight(40)
 
                     hp:SetStatusBarTexture(sb)
                     hp:SetHeight(18)
@@ -74,15 +78,17 @@
 
     orig.RaidPullout_GenerateGroupFrame = RaidPullout_GenerateGroupFrame
     orig.RaidPullout_GenerateClassFrame = RaidPullout_GenerateClassFrame
+
     function RaidPullout_GenerateGroupFrame(f)
-        orig.RaidPullout_GenerateGroupFrame() skin()
+        orig.RaidPullout_GenerateGroupFrame() skin() colour()
     end
     function RaidPullout_GenerateClassFrame(f)
-        orig.RaidPullout_GenerateClassFrame() skin()
+        orig.RaidPullout_GenerateClassFrame() skin() colour()
     end
 
+
     local f = CreateFrame'Frame'
-    f:RegisterEvent'RAID_ROSTER_UPDATE'
+    f:RegisterEvent'RAID_ROSTER_UPDATE' f:RegisterEvent'PARTY_MEMBERS_CHANGED'
     f:SetScript('OnEvent', function() skin() colour() end)
 
     local co = CreateFrame'Frame'
