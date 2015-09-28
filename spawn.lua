@@ -10,7 +10,7 @@
         for i = 1, 6 do
             local f = _G['RaidPullout'..i]
             if f then
-                if not id then
+                if not id then      -- todo: AUTO_GENERATE FRAMES ON RAID ENTER
                     local id = CreateFrame'Frame'
                     id:SetScript('OnLoad', function() id:SetID(i) RaidPullout_GenerateGroupFrame() end)
                 end
@@ -29,10 +29,10 @@
         end
     end
 
-    local f = CreateFrame'Frame'
-    f:RegisterEvent'RAID_ROSTER_UPDATE'    f:RegisterEvent'PARTY_MEMBERS_CHANGED'
-    f:RegisterEvent'PLAYER_REGEN_DISABLED' f:RegisterEvent'PLAYER_REGEN_ENABLED'
-    f:SetScript('OnEvent', spawn)
+--    local f = CreateFrame'Frame'  -- todo: slash that toggles auto-sort 
+--    f:RegisterEvent'RAID_ROSTER_UPDATE'    f:RegisterEvent'PARTY_MEMBERS_CHANGED'
+--    f:RegisterEvent'PLAYER_REGEN_DISABLED' f:RegisterEvent'PLAYER_REGEN_ENABLED'
+--    f:SetScript('OnEvent', spawn)
 
     SLASH_RAIDSPAWN1 = '/spawn'
     SlashCmdList['RAIDSPAWN'] = function(arg)
