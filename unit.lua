@@ -12,13 +12,15 @@
             local bg   = _G['RaidPullout'..i..'MenuBackdrop']
             if raid then
                 raid:SetScale(.9)
-                raid:SetBackdrop({ bgFile = [[Interface\Tooltips\UI-Tooltip-Background]],
-                                   insets = {left = 2, right = 2, top = 2, bottom = 2} })
-                raid:SetBackdropColor(0, 0, 0, .5)
-                modSkin(raid, 22)
-                modSkinDraw(raid, 'OVERLAY')
-                modSkinColor(raid, .2, .2, .2)
-                bg:Hide()
+                if IsAddOnLoaded'modui' then
+                    raid:SetBackdrop({ bgFile = [[Interface\Tooltips\UI-Tooltip-Background]],
+                                       insets = {left = 2, right = 2, top = 2, bottom = 2} })
+                    raid:SetBackdropColor(0, 0, 0, .5)
+                    modSkin(raid, 22)
+                    modSkinDraw(raid, 'OVERLAY')
+                    modSkinColor(raid, .2, .2, .2)
+                    bg:Hide()
+                end
             end
             for k = 1, 5 do
                 local bu   = _G['RaidPullout'..i..'Button'..k]

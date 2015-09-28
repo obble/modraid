@@ -2,7 +2,6 @@
 ## Author: modernist
 ## Title: mod raid
 ## Notes: raid uf mod.
-## Dependencies: modui
 ## LoadOnDemand: 1
 ## LoadWith: Blizzard_RaidUI
 spawn.lua
