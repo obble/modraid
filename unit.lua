@@ -7,7 +7,7 @@
     local orig = {}
 
     local skin = function()
-        for i = 1, 6 do
+        for i = 1, 8 do
             local raid = _G['RaidPullout'..i]
             local bg   = _G['RaidPullout'..i..'MenuBackdrop']
             if raid then
@@ -65,7 +65,7 @@
     end
 
     local colour = function()
-        for i = 1, 6 do
+        for i = 1, 8 do
             for k = 1, 5 do
                 local bu   = _G['RaidPullout'..i..'Button'..k]
                 local hp   = _G['RaidPullout'..i..'Button'..k..'HealthBar']

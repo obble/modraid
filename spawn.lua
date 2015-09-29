@@ -3,21 +3,16 @@
     assert(IsAddOnLoaded'Blizzard_RaidUI', 'Blizzard Raid UI did not load first!')
 
     local _G = getfenv(0)
-    local x  = 3
+    local x  = 2
 
-    local spawn = function()
+    local sort = function()
         local r = 1
-        for i = 1, 6 do
+        for i = 1, 8 do
             local f = _G['RaidPullout'..i]
             if f then
-                if not id then      -- todo: AUTO_GENERATE FRAMES ON RAID ENTER
-                    local id = CreateFrame'Frame'
-                    id:SetScript('OnLoad', function() id:SetID(i) RaidPullout_GenerateGroupFrame() end)
-                end
-
                 f:ClearAllPoints()
                 if i == 1 then
-                    f:SetPoint('TOPRIGHT', -50, -UIParent:GetHeight()/3)
+                    f:SetPoint('TOPRIGHT', -60, -UIParent:GetHeight()/3)
                 elseif r == x then
                     f:SetPoint('TOPRIGHT', _G['RaidPullout'..(i - x)], 'TOPLEFT', -20, 0)
                     r = 1
@@ -29,10 +24,23 @@
         end
     end
 
---    local f = CreateFrame'Frame'  -- todo: slash that toggles auto-sort 
---    f:RegisterEvent'RAID_ROSTER_UPDATE'    f:RegisterEvent'PARTY_MEMBERS_CHANGED'
---    f:RegisterEvent'PLAYER_REGEN_DISABLED' f:RegisterEvent'PLAYER_REGEN_ENABLED'
---    f:SetScript('OnEvent', spawn)
+    local spawn = function()
+        for i = 1,40 do
+            if i <= GetNumRaidMembers() then
+                local _, _, subgroup = GetRaidRosterInfo(i)
+                for k = 1, subgroup do
+                    _G['RaidGroup'..k..'Label']:SetScript('OnShow', function()
+                        RaidPullout_GenerateGroupFrame() sort() end)
+                end
+            end
+        end
+    end
+
+    local f = CreateFrame'Frame'  -- todo: slash that toggles auto-sort
+    f:RegisterEvent'RAID_TARGET_UPDATE'
+    f:RegisterEvent'RAID_ROSTER_UPDATE'    f:RegisterEvent'PARTY_MEMBERS_CHANGED'
+    f:RegisterEvent'PLAYER_REGEN_DISABLED' f:RegisterEvent'PLAYER_REGEN_ENABLED'
+    f:SetScript('OnEvent', spawn)
 
     SLASH_RAIDSPAWN1 = '/spawn'
     SlashCmdList['RAIDSPAWN'] = function(arg)
@@ -43,8 +51,10 @@
             print'modRaid spawn usage:'
             print'|cffffffff/spawn 1-12|r — Set max frames spawned per column.'
         end
-        spawn()
+        sort()
     end
+
+    spawn()
 
 
     --
