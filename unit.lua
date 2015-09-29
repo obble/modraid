@@ -55,9 +55,13 @@
                     name:SetParent(hp)
                     name:ClearAllPoints() name:SetPoint('CENTER', hp)
 
+                    hp:EnableMouse(false) pp:EnableMouse(false)
                     for j = 1, 4 do
                         local icon = _G['RaidPullout'..i..'Button'..k..'Debuff'..j]
-                        -- modSkin(icon, 13.5)
+                        if j == 1 then
+                            icon:ClearAllPoints()
+                            icon:SetPoint('TOPLEFT', hp, 'TOPRIGHT', 5, 0)
+                        end
                     end
                 end
             end
@@ -68,10 +72,13 @@
         for i = 1, 8 do
             for k = 1, 5 do
                 local bu   = _G['RaidPullout'..i..'Button'..k]
+                local c    = _G['RaidPullout'..i..'Button'..k..'ClearButton']
                 local hp   = _G['RaidPullout'..i..'Button'..k..'HealthBar']
                 local name = _G['RaidPullout'..i..'Button'..k..'Name']
                 if bu then
                     local r, g, b = name:GetTextColor() hp:SetStatusBarColor(r, g, b)
+                    c:SetWidth(58)
+                    c:SetHeight(40)
                     name:SetText(string.sub(name:GetText(), 1, 6))
                 end
             end

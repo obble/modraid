@@ -29,18 +29,64 @@
             if i <= GetNumRaidMembers() then
                 local _, _, subgroup = GetRaidRosterInfo(i)
                 for k = 1, subgroup do
-                    _G['RaidGroup'..k..'Label']:SetScript('OnShow', function()
+                    local l = _G['RaidGroup'..k..'Label']
+                    l:SetScript('OnShow', function()
                         RaidPullout_GenerateGroupFrame() sort() end)
+                    l:Hide() l:Show()
                 end
             end
         end
     end
 
-    local f = CreateFrame'Frame'  -- todo: slash that toggles auto-sort
-    f:RegisterEvent'RAID_TARGET_UPDATE'
-    f:RegisterEvent'RAID_ROSTER_UPDATE'    f:RegisterEvent'PARTY_MEMBERS_CHANGED'
-    f:RegisterEvent'PLAYER_REGEN_DISABLED' f:RegisterEvent'PLAYER_REGEN_ENABLED'
-    f:SetScript('OnEvent', spawn)
+    local despawn = function()
+        for i = 1, 8 do
+            local f = _G['RaidPullout'..i]
+            if f then f:Hide() end
+        end
+    end
+
+    local e = CreateFrame'Frame'    -- BUILD MORE FRAMES IF 1 IS SHOWN
+    function e:Enable()
+        e:RegisterEvent'RAID_ROSTER_UPDATE' e:RegisterEvent'PARTY_MEMBERS_CHANGED'
+        e:SetScript('OnEvent', function()
+            for i = 1, 8 do
+                local f = _G['RaidPullout'..i] if f and f:IsShown() then spawn() end
+            end
+        end)
+    end
+    function e:Disable() e:UnregisterAllEvents() end
+
+    local enable = CreateFrame('Button', 'modRaidSpawn', RaidFrame, 'UIPanelButtonTemplate')
+    enable:SetWidth(100)
+    enable:SetHeight(20)
+    enable:SetText'Spawn Raid'
+    enable:SetFont(STANDARD_TEXT_FONT, 10)
+    enable:SetPoint('BOTTOMRIGHT', RaidFrameRaidInfoButton, 'TOPRIGHT', -22, 2)
+
+    local disable = CreateFrame('Button', 'modRaidSpawn', RaidFrame, 'UIPanelButtonTemplate')
+    disable:SetWidth(100)
+    disable:SetHeight(20)
+    disable:SetText'Despawn Raid'
+    disable:SetFont(STANDARD_TEXT_FONT, 10)
+    disable:SetPoint('BOTTOMRIGHT', RaidFrameRaidInfoButton, 'TOPRIGHT', -22, 2)
+    disable:Hide()
+
+    enable:SetScript('OnClick', function() spawn() e:Enable() this:Hide() disable:Show() end)
+    disable:SetScript('OnClick', function() despawn() e:Disable() this:Hide() enable:Show() end)
+
+    for i = 1, 8 do
+        local f = _G['RaidPullout'..i]
+        if f then
+            _G['RaidPullout1']:SetScript('OnDragStart', function()
+                this:SetFrameStrata'DIALOG' this:StartMoving()
+                if IsShiftKeyDown() then f:StartMoving() end
+            end)
+            _G['RaidPullout1']:SetScript('OnDragStop', function()
+                this:SetFrameStrata'BACKGROUND' this:StopMovingOrSizing() ValidateFramePosition(this, 25)
+                f:StopMovingOrSizing() ValidateFramePosition(f, 25)
+            end)
+        end
+    end
 
     SLASH_RAIDSPAWN1 = '/spawn'
     SlashCmdList['RAIDSPAWN'] = function(arg)
@@ -53,8 +99,5 @@
         end
         sort()
     end
-
-    spawn()
-
 
     --
