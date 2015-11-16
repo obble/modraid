@@ -38,8 +38,17 @@
                     bu:SetHeight(40)
                     local a = bu:GetRegions() a:Hide()
 
+                    local t = hp:CreateFontString(nil, 'OVERLAY', nil, 7)
+                    t:SetFont(STANDARD_TEXT_FONT, 18, 'OUTLINE')
+                    t:SetText'>'
+                    t:SetTextColor(0, 1, .3)
+                    t:SetPoint('RIGHT', c, 'LEFT')
+                    t:Hide()
+
                     c:SetWidth(58)
                     c:SetHeight(40)
+                    c:SetScript('OnEnter', function() t:Show() RaidGroupButton_OnEnter() end)
+                    c:SetScript('OnLeave', function() t:Hide() GameTooltip:Hide() end)
 
                     hp:SetStatusBarTexture(sb)
                     hp:SetHeight(18)

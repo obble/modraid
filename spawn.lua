@@ -12,7 +12,7 @@
             if f then
                 f:ClearAllPoints()
                 if i == 1 then
-                    f:SetPoint('TOPRIGHT', -60, -UIParent:GetHeight()/3)
+                    f:SetPoint('TOPRIGHT', -100, -UIParent:GetHeight()/3)
                 elseif r == x then
                     f:SetPoint('TOPRIGHT', _G['RaidPullout'..(i - x)], 'TOPLEFT', -20, 0)
                     r = 1
@@ -57,15 +57,13 @@
     function e:Disable() e:UnregisterAllEvents() end
 
     local enable = CreateFrame('Button', 'modRaidSpawn', RaidFrame, 'UIPanelButtonTemplate')
-    enable:SetWidth(100)
-    enable:SetHeight(20)
+    enable:SetWidth(100) enable:SetHeight(20)
     enable:SetText'Spawn Raid'
     enable:SetFont(STANDARD_TEXT_FONT, 10)
     enable:SetPoint('BOTTOMRIGHT', RaidFrameRaidInfoButton, 'TOPRIGHT', -22, 2)
 
     local disable = CreateFrame('Button', 'modRaidSpawn', RaidFrame, 'UIPanelButtonTemplate')
-    disable:SetWidth(100)
-    disable:SetHeight(20)
+    disable:SetWidth(100) disable:SetHeight(20)
     disable:SetText'Despawn Raid'
     disable:SetFont(STANDARD_TEXT_FONT, 10)
     disable:SetPoint('BOTTOMRIGHT', RaidFrameRaidInfoButton, 'TOPRIGHT', -22, 2)
