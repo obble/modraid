@@ -3,7 +3,7 @@
     assert(IsAddOnLoaded'Blizzard_RaidUI', 'Blizzard Raid UI did not load first!')
 
     local _G = getfenv(0)
-    local x  = 2
+    local x  = 4
 
     local sort = function()
         local r = 1
@@ -12,12 +12,12 @@
             if f then
                 f:ClearAllPoints()
                 if i == 1 then
-                    f:SetPoint('TOPRIGHT', -100, -UIParent:GetHeight()/3)
+                    f:SetPoint('TOPRIGHT', -60, -UIParent:GetHeight()/3)
                 elseif r == x then
-                    f:SetPoint('TOPRIGHT', _G['RaidPullout'..(i - x)], 'TOPLEFT', -20, 0)
+                    f:SetPoint('TOPRIGHT', _G['RaidPullout'..(i - x)], 'BOTTOMRIGHT', 0, -20)
                     r = 1
                 else
-                    f:SetPoint('TOPLEFT', _G['RaidPullout'..(i - 1)], 'BOTTOMLEFT', 0, -20)
+                    f:SetPoint('TOPRIGHT', _G['RaidPullout'..(i - 1)], 'TOPLEFT', -20, 0)
                     r = r + 1
                 end
             end
@@ -30,8 +30,7 @@
                 local _, _, subgroup = GetRaidRosterInfo(i)
                 for k = 1, subgroup do
                     local l = _G['RaidGroup'..k..'Label']
-                    l:SetScript('OnShow', function()
-                        RaidPullout_GenerateGroupFrame() sort() end)
+                    l:SetScript('OnShow', function() RaidPullout_GenerateGroupFrame() sort() end)
                     l:Hide() l:Show()
                 end
             end

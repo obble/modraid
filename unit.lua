@@ -1,9 +1,7 @@
-
-
-    assert(IsAddOnLoaded'Blizzard_RaidUI', 'Blizzard Raid UI did not load first!')
+assert(IsAddOnLoaded'Blizzard_RaidUI', 'Blizzard Raid UI did not load first!')
 
     local _G = getfenv(0)
-    local sb = [[Interface\AddOns\modui\modsb\texture\sb.tga]]
+    local sb = [[Interface\AddOns\modui\statusbar\texture\sb.tga]]
     local orig = {}
 
     local skin = function()
